@@ -22,6 +22,8 @@ public class DrawingRobot extends Application
 
     public static void main(String[] args)
     {
+        
+        System.out.println("Hej.");
         launch(args);
         
         
