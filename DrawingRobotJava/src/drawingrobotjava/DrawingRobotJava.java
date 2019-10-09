@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import dk.sdu.mmmi.rd1.edgedetect;
+import dk.sdu.mmmi.rd1.robotcomm;
 
 
 
@@ -29,6 +31,7 @@ public class DrawingRobotJava extends Application
     public static void main(String[] args)
     {
         launch(args);
+        Robotcomm test = new Robotcomm();
         
     }
     
