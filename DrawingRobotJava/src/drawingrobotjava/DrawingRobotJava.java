@@ -39,6 +39,7 @@ public class DrawingRobotJava extends Application
         
         
         System.out.println("Jonas Branch");
+        System.out.println("HEllo Linea");
         
         System.out.println("Linea Branch");
     }
