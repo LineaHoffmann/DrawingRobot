@@ -29,19 +29,7 @@ public class DrawingRobotJava extends Application
     public static void main(String[] args)
     {
         launch(args);
-        System.out.println("Hej Jonas");
-        System.out.println("Hej alle!");
-        System.out.println("dette er production branch");
-        System.out.println("phil tester");
-        System.out.println("Jonas er IKKE SEJ!");
-        System.out.println("GIT ER IKKE NEMT");
         
-        
-        
-        System.out.println("Jonas Branch");
-        System.out.println("HEllo Linea");
-        
-        System.out.println("Linea Branch");
     }
     
 }
