@@ -6,8 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import dk.sdu.mmmi.rd1.edgedetect;
-import dk.sdu.mmmi.rd1.robotcomm;
+import dk.sdu.mmmi.rd1.edgedetect.*;
+import dk.sdu.mmmi.rd1.robotcomm.*;
 
 
 
