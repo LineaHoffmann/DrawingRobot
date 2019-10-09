@@ -33,6 +33,7 @@ public class DrawingRobotJava extends Application
         System.out.println("Hej alle!");
         System.out.println("dette er production branch");
         System.out.println("Jonas er IKKE SEJ!");
+        System.out.println("GIT ER IKKE NEMT");
     }
     
 }
