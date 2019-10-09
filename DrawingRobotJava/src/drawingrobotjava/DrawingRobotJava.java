@@ -30,6 +30,7 @@ public class DrawingRobotJava extends Application
     {
         launch(args);
         System.out.println("Hej Jonas");
+        System.out.println("Hej alle!");
     }
     
 }
