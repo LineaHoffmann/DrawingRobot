@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package drawingrobot;
+package drawingrobotjava;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,7 +14,7 @@ import javafx.scene.control.Label;
 
 /**
  *
- * @author Linea
+ * @author Bruger
  */
 public class FXMLDocumentController implements Initializable
 {
