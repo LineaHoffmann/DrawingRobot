@@ -32,8 +32,8 @@ public class DrawingRobotJava extends Application
         System.out.println("Hej Jonas");
         System.out.println("Hej alle!");
         System.out.println("dette er production branch");
-        System.out.println("Jonas er SEJ!");
         System.out.println("phil tester");
+        System.out.println("Jonas er IKKE SEJ!");
     }
     
 }
