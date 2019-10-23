@@ -31,7 +31,7 @@ public class DrawingRobotJava extends Application
     public static void main(String[] args)
     {
         launch(args);
-        Robotcomm test = new Robotcomm();
+        
         
     }
     
