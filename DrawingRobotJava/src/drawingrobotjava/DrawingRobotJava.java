@@ -1,4 +1,3 @@
-
 package drawingrobotjava;
 
 import javafx.application.Application;
@@ -8,32 +7,37 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import dk.sdu.mmmi.rd1.edgedetect.*;
 import dk.sdu.mmmi.rd1.robotcomm.*;
-
-
+import java.util.Arrays;
 
 public class DrawingRobotJava extends Application
 {
-    
+
     @Override
     public void start(Stage stage) throws Exception
     {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
+
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.show();
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args)
     {
-        launch(args);
-        RobotClient robot1 = new  RobotClient("br-automation", 3333);
-        robot1.connect();
+        //Edgedetector tests
+        EdgeDetector picture = new EdgeDetector("C:\\Users\\Mikke\\Desktop\\Smiley.PNG");
+        int[][] magArray = picture.getMagnitudeArray();
+        
+        System.out.println(Arrays.deepToString(magArray));
+
+        //Picture class tests
+        
+        //Picture smiley = new Picture("C:\\Users\\Mikke\\Desktop\\Smiley.PNG");
+        //smiley.getImage();
+        //System.out.println(smiley.height() + " x " + smiley.width());
+        //smiley.show();
         
     }
-    
+
 }
