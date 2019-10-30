@@ -31,7 +31,8 @@ public class DrawingRobotJava extends Application
     public static void main(String[] args)
     {
         launch(args);
-        
+        RobotClient robot1 = new  RobotClient("br-automation", 3333);
+        robot1.connect();
         
     }
     
