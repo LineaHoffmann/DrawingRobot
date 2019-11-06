@@ -26,7 +26,7 @@ public class DrawingRobotJava extends Application
     public static void main(String[] args)
     {
         //Make an instance of a picture from a filepath, and make an int array with values from 0 to 255 of intensity of color
-        EdgeDetector picture = new EdgeDetector("C:\\Users\\Mikke\\Desktop\\TinyApple.JPG");
+        EdgeDetector picture = new EdgeDetector("https://images.media-allrecipes.com/userphotos/50x50/3876426.jpg");
         int[][] magArray = picture.getMagnitudeArray();
 
         //Prints the magnitude array as a table
