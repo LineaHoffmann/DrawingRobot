@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import dk.sdu.mmmi.rd1.edgedetect.*;
 import dk.sdu.mmmi.rd1.robotcomm.*;
-import java.util.Arrays;
 
 public class DrawingRobotJava extends Application
 {
@@ -25,8 +24,10 @@ public class DrawingRobotJava extends Application
 
     public static void main(String[] args)
     {
-        //Make an instance of a picture from a filepath, and make an int array with values from 0 to 255 of intensity of color
-        EdgeDetector picture = new EdgeDetector("https://images.media-allrecipes.com/userphotos/50x50/3876426.jpg");
+        //Testbillede af æble i 50x50
+        //https://images.media-allrecipes.com/userphotos/50x50/3876426.jpg
+        //Make an instance of a picture from a filepath or URL, and make an int array with values from 0 to 255 of intensity of color
+        EdgeDetector picture = new EdgeDetector("");
         int[][] magArray = picture.getMagnitudeArray();
 
         //Prints the magnitude array as a table
@@ -39,7 +40,6 @@ public class DrawingRobotJava extends Application
             System.out.println();
         }
          */
-
         //Remake the 2d int arry where only colors stronger than 128 is displayed into a boolean array
         boolean[][] boolArray = new boolean[magArray.length][magArray[0].length];
         for (int row = 0; row < magArray.length; row++)
@@ -68,39 +68,50 @@ public class DrawingRobotJava extends Application
 
         //Loop through the array
         String gcode = "";
+        int startDraw = 0;
+        int endDraw = 0;
+        int lengthDrawn = 0;
+        gcode = gcode.concat("M17;G28;G30;"); //Start (M17 enable stepmotor, G28 go to home, G30 go to drawing area (0,0))
         for (int row = 0; row < boolArray.length; row++)
         {
             for (int col = 1; col < boolArray[0].length; col++) //The magnitudeArray method has makes the array 1 smaller on each edge, so we have to start at column 1
             {
-                if (col == boolArray.length - 1) //If we are at the end of a line, add a commando to the gcode to go to start of next line
+                if (lengthDrawn > 3) //After drawing for this long
                 {
-                    gcode = gcode.concat("G081;" + "G010" + row + ";");
+                    gcode = gcode.concat("G12;"); //Add a pencilsharpener command and reset counter for length drawn
+                    lengthDrawn = 0;
+                }
+                if (col == boolArray.length - 1) //If we are at the end of a line
+                {
+                    gcode = gcode.concat("G08 Z1;" + "G01 X0 Y" + row + ";"); //Add a commando to the gcode to go to start of next line
                     break;
                 }
                 if (!(boolArray[row][col] == boolArray[row][col - 1])) //If there is a change in value between one element and the next
                 {
-                    int drawLength = col;
+                    int drawLength = col; //The X coordinate (from left to right)
                     if (boolArray[row][col] == false) //If the change is going from false to true
                     {
-                        gcode = gcode.concat("G080;" + "G010" + drawLength + ";"); //Add a gcode command that puts pen down and one that goes to the next change
+                        gcode = gcode.concat("G08 Z0;" + "G01 X" + drawLength + ";"); //Add a gcode command that puts pen down and one that goes to the next change
+                        startDraw = col; //Set the start of draw to calculate draw length
 
                     } else
                     {
-                        gcode = gcode.concat("G081;" + "G010" + drawLength + ";"); //Else add a gcode command that puts pen down and one that goes to the next change
+                        gcode = gcode.concat("G08 Z1;" + "G01 X" + drawLength + ";"); //Else add a gcode command that puts pen down and one that goes to the next change
+                        endDraw = col; //Set the end of draw to calculate draw length
                     }
+                    lengthDrawn += (startDraw - endDraw); //Calculate length drawn
                 }
             }
         }
+
+        gcode = gcode.concat("G28;M18;M00;"); //Stop (G28 go to home, M18 disable stepmotor, M00 stop all)
         System.out.println(gcode);
-        
-        
+        System.out.println(lengthDrawn);
+
         // Jeg har omdannet int-arrayet til et boolean array for det i min optik er
         // lettere at skrive Gkode der der går igennem linje for linje og sætter blyanten
         // ned når arrayet er true og løfter blyanten igen når det bliver false
-
-        //System.out.println(drawLength); //er fra starten af linjen
-        //OBS Out of bounds hvis col2 = 0 (fix eller er det okay med col2 = 1?)
-        //Jeg tror også at lige nu begynder den først at tegne, når der er en linje med noget at tegne
+        
+        //Todo:
     }
-
 }
