@@ -6,16 +6,16 @@ public class Gcode
 {
 
     //Attributes
-    public static String filename;
+    public static String file;
     protected static String gcode = "";
     protected static int startDraw = 0;
     protected static int endDraw = 0;
     protected static int lengthDrawn = 0;
 
-    public static String createGcode(String filename)
+    public static String createGcode(String file)
     {
         //Make an instance of a picture from given file or URL, and make an int array with values from 0 to 255 of intensity of color
-        EdgeDetector picture = new EdgeDetector(filename);
+        EdgeDetector picture = new EdgeDetector(file);
         int[][] magArray = picture.getMagnitudeArray();
 
         //Remake the 2d int arry where only colors stronger than 128 is displayed into a boolean array
@@ -70,14 +70,14 @@ public class Gcode
         return gcode;
     }
 
-    public static void setFilename(String filename)
+    public static void setFile(String file)
     {
-        Gcode.filename = filename;
+        Gcode.file = file;
     }
 
-    public static String getFilename()
+    public static String getFile()
     {
-        return filename;
+        return file;
     }
 
     public static String getGcode()
