@@ -5,12 +5,16 @@
  */
 package drawingrobotjava;
 
+import dk.sdu.mmmi.rd1.robotcomm.RobotClient;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+
 
 /**
  *
@@ -20,19 +24,25 @@ public class FXMLDocumentController implements Initializable
 {
     
     @FXML
-    private Label label;
-    
+    private Button isConnectedButton; //not in use
     @FXML
-    private void handleButtonAction(ActionEvent event)
-    {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-    
+    private Label textLabel;
+      
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
+        RobotClient robot1;
+        robot1 = new  RobotClient("127.0.0.1", 3333);
+        robot1.connect();
+        System.out.println(robot1.isConnected());
+        robot1.disconnect();
     }    
+
+    @FXML
+    private void handleIsConnectedButton(ActionEvent event)
+    {
+        System.out.println("IsConnected clicked");
+        textLabel.setText("Clicked");
+    }
     
 }
