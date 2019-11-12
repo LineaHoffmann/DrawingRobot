@@ -34,6 +34,7 @@ public class RobotClient {
         try {
             connection = new Socket(hostname, port);
             out = new PrintWriter(connection.getOutputStream(), true);
+            out.println("This is a message sent to the server");
         } catch (IOException ex) {
             Logger.getLogger(RobotClient.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error connecting to robot: " + ex.getMessage());
