@@ -25,7 +25,16 @@ public class DrawingRobotJava extends Application
     public static void main(String[] args)
     {
         
-        launch(args);
+        RobotClient robot1;
+        robot1 = new RobotClient("127.0.0.1", 3333);
+        robot1.connect();
+        System.out.println(robot1.isConnected());
+        robot1.write(Gcode.getGcode());
+        
+        
+        //launch(args);
         System.out.println(Gcode.createGcode("https://images.media-allrecipes.com/userphotos/50x50/3876426.jpg"));
+        robot1.disconnect();
+        
     }
 }
