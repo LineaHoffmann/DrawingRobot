@@ -24,7 +24,7 @@ public class Gcode
         {
             for (int col = 0; col < magArray[row].length; col++)
             {
-                if (magArray[row][col] < 128)
+                if (magArray[row][col] > 128)
                 {
                     boolArray[row][col] = true;
                 } else
@@ -52,14 +52,14 @@ public class Gcode
                 if (!(boolArray[row][col] == boolArray[row][col - 1])) //If there is a change in value between one element and the next
                 {
                     int drawLength = col; //The X coordinate (from left to right)
-                    if (boolArray[row][col] == false) //If the change is going from false to true
+                    if (boolArray[row][col] == true) //If the change is going from false to true
                     {
                         gcode = gcode.concat("G08 Z0;" + "G01 X" + drawLength + ";"); //Add a gcode command that puts pen down and one that goes to the next change
                         startDraw = col; //Set the start of draw to calculate draw length
 
                     } else
                     {
-                        gcode = gcode.concat("G08 Z1;" + "G01 X" + drawLength + ";"); //Else add a gcode command that puts pen down and one that goes to the next change
+                        gcode = gcode.concat("G08 Z1;" + "G01 X" + drawLength + ";"); //Else add a gcode command that puls the pen up and one that goes to the next change
                         endDraw = col; //Set the end of draw to calculate draw length
                     }
                     lengthDrawn += (startDraw - endDraw); //Calculate length drawn
@@ -84,10 +84,40 @@ public class Gcode
     {
         return gcode;
     }
-    
+
+    public static void printBool(String file)
+    {
+        //Make an instance of a picture from given file or URL, and make an int array with values from 0 to 255 of intensity of color
+        EdgeDetector picture = new EdgeDetector(file);
+        int[][] magArray = picture.getMagnitudeArray();
+
+        //Remake the 2d int arry where only colors stronger than 128 is displayed into a boolean array
+        boolean[][] boolArray = new boolean[magArray.length][magArray[0].length];
+        for (int row = 0; row < magArray.length; row++)
+        {
+            for (int col = 0; col < magArray[row].length; col++)
+            {
+                if (magArray[row][col] < 128)
+                {
+                    boolArray[row][col] = true;
+                } else
+                {
+                    boolArray[row][col] = false;
+                }
+            }
+        }
+        //Print the boolean array as a table for easy understanding
+        for (int row = 0; row < boolArray.length; row++)
+        {
+            for (int col = 0; col < boolArray[0].length; col++)
+            {
+                System.out.print(boolArray[row][col] + "\t");
+            }
+            System.out.println();
+        }
+
+    }
 }
-
-
 
 //        //Prints the magnitude array as a table
 //            for (int row = 0; row < magArray.length; row++)
@@ -98,7 +128,6 @@ public class Gcode
 //            }
 //            System.out.println();
 //        }
-
 //        //Print the boolean array as a table for easy understanding
 //        for (int row = 0; row < boolArray.length; row++)
 //        {
@@ -107,7 +136,6 @@ public class Gcode
 //                System.out.print(boolArray[row][col] + "\t");
 //            }
 //            System.out.println();
-
 //        // Jeg har omdannet int-arrayet til et boolean array for det i min optik er
 //        // lettere at skrive Gkode der der går igennem linje for linje og sætter blyanten
 //        // ned når arrayet er true og løfter blyanten igen når det bliver false
