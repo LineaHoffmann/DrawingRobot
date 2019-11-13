@@ -31,11 +31,11 @@ public class FXMLDocumentController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        RobotClient robot1;
-        robot1 = new  RobotClient("127.0.0.1", 3333);
-        robot1.connect();
-        System.out.println(robot1.isConnected());
-        robot1.disconnect();
+//        RobotClient robot1;
+//        robot1 = new  RobotClient("127.0.0.1", 3333);
+//        robot1.connect();
+//        System.out.println(robot1.isConnected());
+//        robot1.disconnect();
     }    
 
     @FXML

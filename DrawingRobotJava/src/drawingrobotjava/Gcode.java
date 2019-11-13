@@ -6,11 +6,11 @@ public class Gcode
 {
 
     //Attributes
-    public static String filename;
-    protected static String gcode = "";
-    protected static int startDraw = 0;
-    protected static int endDraw = 0;
-    protected static int lengthDrawn = 0;
+    public static String filename; //Hvorfor er det public?
+    private static String gcode = "";
+    private static int startDraw = 0;
+    private static int endDraw = 0;
+    private static int lengthDrawn = 0;
 
     public static String createGcode(String filename)
     {
