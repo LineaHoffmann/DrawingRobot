@@ -54,12 +54,12 @@ public class Gcode
                     int drawLength = col; //The X coordinate (from left to right)
                     if (boolArray[row][col] == true) //If the change is going from false to true
                     {
-                        gcode = gcode.concat("G08 Z0;" + "G01 X" + drawLength + ";"); //Add a gcode command that puts pen down and one that goes to the next change
+                        gcode = gcode.concat("G08 Z0;" + "G01 X" + drawLength + "G01 Y" + row + ";"); //Add a gcode command that puts pen down and one that goes to the next change
                         startDraw = col; //Set the start of draw to calculate draw length
 
                     } else
                     {
-                        gcode = gcode.concat("G08 Z1;" + "G01 X" + drawLength + ";"); //Else add a gcode command that puls the pen up and one that goes to the next change
+                        gcode = gcode.concat("G08 Z1;" + "G01 X" + drawLength + "G01 Y" + row + ";"); //Else add a gcode command that puls the pen up and one that goes to the next change
                         endDraw = col; //Set the end of draw to calculate draw length
                     }
                     lengthDrawn += (startDraw - endDraw); //Calculate length drawn
