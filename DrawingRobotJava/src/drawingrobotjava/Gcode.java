@@ -33,20 +33,20 @@ public class Gcode
                 }
             }
         }
-        gcode = gcode.concat("M17;G28;G30;"); //Start (M17 enable stepmotor, G28 go to home, G30 go to drawing area (0,0))
+        gcode = gcode.concat("M17;G28;G30;G01 X0 Y0;"); //Start (M17 enable stepmotor, G28 go to home, G30 go to drawing area (0,0))
         //Loop through the array
         for (int row = 0; row < boolArray.length; row++)
         {
             for (int col = 1; col < boolArray[0].length; col++) //The magnitudeArray method has makes the array 1 smaller on each edge, so we have to start at column 1
             {
-                if (lengthDrawn > 3) //After drawing for this long
+                if (lengthDrawn > 1000) //After drawing for this long
                 {
-                    gcode = gcode.concat("G12;"); //Add a pencilsharpener command and reset counter for length drawn
+                    //gcode = gcode.concat("G12;"); //Add a pencilsharpener command and reset counter for length drawn
                     lengthDrawn = 0;
                 }
                 if (col == boolArray.length - 1) //If we are at the end of a line
                 {
-                    gcode = gcode.concat("G08 Z1;" + "G01 X0 Y" + row + ";"); //Add a commando to the gcode to go to start of next line
+                    gcode = gcode.concat("G08 Z10;" + "G01 X0 Y" + row + ";"); //Add a commando to the gcode to go to start of next line
                     break;
                 }
                 if (!(boolArray[row][col] == boolArray[row][col - 1])) //If there is a change in value between one element and the next
@@ -54,19 +54,19 @@ public class Gcode
                     int drawLength = col; //The X coordinate (from left to right)
                     if (boolArray[row][col] == true) //If the change is going from false to true
                     {
-                        gcode = gcode.concat("G08 Z0;" + "G01 X" + drawLength + "G01 Y" + row + ";"); //Add a gcode command that puts pen down and one that goes to the next change
+                        gcode = gcode.concat("G08 Z0;" + "G01 X" + drawLength + " Y" + row + ";"); //Add a gcode command that puts pen down and one that goes to the next change
                         startDraw = col; //Set the start of draw to calculate draw length
 
                     } else
                     {
-                        gcode = gcode.concat("G08 Z1;" + "G01 X" + drawLength + "G01 Y" + row + ";"); //Else add a gcode command that puls the pen up and one that goes to the next change
+                        gcode = gcode.concat("G08 Z10;" + "G01 X" + drawLength + " Y" + row + ";"); //Else add a gcode command that puls the pen up and one that goes to the next change
                         endDraw = col; //Set the end of draw to calculate draw length
                     }
                     lengthDrawn += (startDraw - endDraw); //Calculate length drawn
                 }
             }
         }
-        gcode = gcode.concat("G28;M18;M00;"); //Stop (G28 go to home, M18 disable stepmotor, M00 stop all)
+        gcode = gcode.concat("G08 Z50;M18;M00;"); //Stop (G28 go to home, M18 disable stepmotor, M00 stop all)
         return gcode;
     }
 
