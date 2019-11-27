@@ -39,9 +39,9 @@ public class Gcode
         {
             for (int col = 1; col < boolArray[0].length; col++) //The magnitudeArray method has makes the array 1 smaller on each edge, so we have to start at column 1
             {
-                if (lengthDrawn > 1000) //After drawing for this long
+                if (lengthDrawn > 400) //After drawing for this long
                 {
-                    //gcode = gcode.concat("G12;"); //Add a pencilsharpener command and reset counter for length drawn
+                    gcode = gcode.concat("G12;"); //Add a pencilsharpener command and reset counter for length drawn
                     lengthDrawn = 0;
                 }
                 if (col == boolArray.length - 1) //If we are at the end of a line
