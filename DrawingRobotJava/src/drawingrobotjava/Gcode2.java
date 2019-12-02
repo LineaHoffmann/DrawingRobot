@@ -6,12 +6,11 @@ public class Gcode2
 {
 
     //Attributes
-    public String file;
+    private String file;
     private String gcode = "";
     private int startDraw = 0;
     private int endDraw = 0;
     private int lengthDrawn = 0;
-    private int[][] magArray;
     private boolean[][] boolArray;
 
     //Constructor
@@ -20,14 +19,13 @@ public class Gcode2
         this.file = file;
 
         EdgeDetector picture = new EdgeDetector(file);
-        magArray = picture.getMagnitudeArray();
 
-        boolArray = new boolean[magArray.length][magArray[0].length];
-        for (int row = 0; row < magArray.length; row++)
+        boolArray = new boolean[picture.getMagnitudeArray().length][picture.getMagnitudeArray()[0].length];
+        for (int row = 0; row < picture.getMagnitudeArray().length; row++)
         {
-            for (int col = 0; col < magArray[row].length; col++)
+            for (int col = 0; col < picture.getMagnitudeArray().length; col++)
             {
-                if (magArray[row][col] > 128)
+                if (picture.getMagnitudeArray()[row][col] > 128)
                 {
                     boolArray[row][col] = true;
                 } else
@@ -46,7 +44,7 @@ public class Gcode2
         //Loop through the array
         for (int row = 0; row < boolArray.length; row++)
         {
-            for (int col = 1; col < boolArray[0].length; col++) //The magnitudeArray method has makes the array 1 smaller on each edge, so we have to start at column 1
+            for (int col = 1; col < boolArray[0].length; col++) //The magnitudeArray method has made the array 1 smaller on each edge, so we have to start at column 1
             {
                 if (lengthDrawn > 400) //After drawing for this long
                 {
@@ -83,24 +81,18 @@ public class Gcode2
         this.file = file;
     }
 
-    //Sets the magnitude array again (use if file has been changed)
-    public void setMagArray()
+    //Sets the boolean array with the parameter of a new filepath
+    public void setBoolArray(String file)
     {
-        //Make an instance of a picture from given file or URL, and make an int array with values from 0 to 255 of intensity of color
-        EdgeDetector picture = new EdgeDetector(file);
-        magArray = picture.getMagnitudeArray();
-    }
-
-    //Sets the boolean array (use if magnitude array has been changed)
-    public void setBoolArray()
-    {
+        this.file = file;
         //Remake the 2d int arry where only colors stronger than 128 is displayed into a boolean array
-        boolArray = new boolean[magArray.length][magArray[0].length];
-        for (int row = 0; row < magArray.length; row++)
+        EdgeDetector picture = new EdgeDetector(file);
+        boolArray = new boolean[picture.getMagnitudeArray().length][picture.getMagnitudeArray()[0].length];
+        for (int row = 0; row < picture.getMagnitudeArray().length; row++)
         {
-            for (int col = 0; col < magArray[row].length; col++)
+            for (int col = 0; col < picture.getMagnitudeArray().length; col++)
             {
-                if (magArray[row][col] > 128)
+                if (picture.getMagnitudeArray()[row][col] > 128)
                 {
                     boolArray[row][col] = true;
                 } else
