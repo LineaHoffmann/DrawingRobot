@@ -2,24 +2,27 @@ package drawingrobotjava;
 
 import dk.sdu.mmmi.rd1.edgedetect.EdgeDetector;
 
-public class Gcode
+public class Gcode2
 {
 
     //Attributes
-    public static String file;
-    private static String gcode = "";
-    private static int startDraw = 0;
-    private static int endDraw = 0;
-    private static int lengthDrawn = 0;
+    public String file;
+    private String gcode = "";
+    private int startDraw = 0;
+    private int endDraw = 0;
+    private int lengthDrawn = 0;
+    private int[][] magArray;
+    private boolean[][] boolArray;
 
-    public static String createGcode(String file)
+    //Constructor
+    public Gcode2(String file)
     {
-        //Make an instance of a picture from given file or URL, and make an int array with values from 0 to 255 of intensity of color
-        EdgeDetector picture = new EdgeDetector(file);
-        int[][] magArray = picture.getMagnitudeArray();
+        this.file = file;
 
-        //Remake the 2d int arry where only colors stronger than 128 is displayed into a boolean array
-        boolean[][] boolArray = new boolean[magArray.length][magArray[0].length];
+        EdgeDetector picture = new EdgeDetector(file);
+        magArray = picture.getMagnitudeArray();
+
+        boolArray = new boolean[magArray.length][magArray[0].length];
         for (int row = 0; row < magArray.length; row++)
         {
             for (int col = 0; col < magArray[row].length; col++)
@@ -33,6 +36,12 @@ public class Gcode
                 }
             }
         }
+    }
+
+    //Methods
+    //Creates gcode from the boolean array (make sure this is updated if file is changed)
+    public void createGcode()
+    {
         gcode = gcode.concat("M17;G28;G30;G01 X0 Y0;G12;"); //Start (M17 enable stepmotor, G28 go to home, G30 go to drawing area (0,0) then sharpen the pencil)
         //Loop through the array
         for (int row = 0; row < boolArray.length; row++)
@@ -67,37 +76,31 @@ public class Gcode
             }
         }
         gcode = gcode.concat("G08 Z50;M18;M00;"); //Stop (Lift pencil, M18 disable stepmotor, M00 stop all)
-        return gcode;
     }
 
-    public static void setFile(String file)
+    public void setFile(String file)
     {
-        Gcode.file = file;
+        this.file = file;
     }
 
-    public static String getFile()
-    {
-        return file;
-    }
-
-    public static String getGcode()
-    {
-        return gcode;
-    }
-
-    public static void printBool(String file)
+    //Sets the magnitude array again (use if file has been changed)
+    public void setMagArray()
     {
         //Make an instance of a picture from given file or URL, and make an int array with values from 0 to 255 of intensity of color
         EdgeDetector picture = new EdgeDetector(file);
-        int[][] magArray = picture.getMagnitudeArray();
+        magArray = picture.getMagnitudeArray();
+    }
 
+    //Sets the boolean array (use if magnitude array has been changed)
+    public void setBoolArray()
+    {
         //Remake the 2d int arry where only colors stronger than 128 is displayed into a boolean array
-        boolean[][] boolArray = new boolean[magArray.length][magArray[0].length];
+        boolArray = new boolean[magArray.length][magArray[0].length];
         for (int row = 0; row < magArray.length; row++)
         {
             for (int col = 0; col < magArray[row].length; col++)
             {
-                if (magArray[row][col] < 128)
+                if (magArray[row][col] > 128)
                 {
                     boolArray[row][col] = true;
                 } else
@@ -106,39 +109,26 @@ public class Gcode
                 }
             }
         }
-        //Print the boolean array as a table for easy understanding
-        for (int row = 0; row < boolArray.length; row++)
-        {
-            for (int col = 0; col < boolArray[0].length; col++)
-            {
-                System.out.print(boolArray[row][col] + "\t");
-            }
-            System.out.println();
-        }
-
     }
+
+    public String getFile()
+    {
+        return file;
+    }
+
+    public String getGcode()
+    {
+        return gcode;
+    }
+
+    public int getLengthDrawn()
+    {
+        return lengthDrawn;
+    }
+
+    public boolean[][] getBoolArray()
+    {
+        return boolArray;
+    }
+
 }
-
-//        //Prints the magnitude array as a table
-//            for (int row = 0; row < magArray.length; row++)
-//        {
-//            for (int col = 1; col < magArray[row].length; col++)
-//            {
-//                System.out.print(magArray[row][col] + "\t");
-//            }
-//            System.out.println();
-//        }
-//        //Print the boolean array as a table for easy understanding
-//        for (int row = 0; row < boolArray.length; row++)
-//        {
-//            for (int col = 0; col < boolArray[0].length; col++)
-//            {
-//                System.out.print(boolArray[row][col] + "\t");
-//            }
-//            System.out.println();
-//        // Jeg har omdannet int-arrayet til et boolean array for det i min optik er
-//        // lettere at skrive Gkode der der går igennem linje for linje og sætter blyanten
-//        // ned når arrayet er true og løfter blyanten igen når det bliver false
-//        
-//        //Todo:
-
