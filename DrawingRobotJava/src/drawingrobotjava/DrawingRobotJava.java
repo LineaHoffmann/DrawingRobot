@@ -30,12 +30,14 @@ public class DrawingRobotJava extends Application
         robot1.connect();
         System.out.println(robot1.isConnected());
         //sender gkoden
-        robot1.write(Gcode.createGcode("https://images.media-allrecipes.com/userphotos/50x50/3876426.jpg"));
-        
+        Gcode picture = new Gcode("C:\\Users\\Mikke\\Dropbox\\SDU - Dropbox\\Semester projekt 1\\Billede af Christian 200x200.jpg");
+        picture.createGcode();
+        robot1.write(picture.getGcode());
+        picture.printBoolArray();
+
+        System.out.println(picture.getGcode());
 
         launch(args);
-        Gcode.printBool("https://images.media-allrecipes.com/userphotos/50x50/3876426.jpg");
-        System.out.println(Gcode.createGcode("https://images.media-allrecipes.com/userphotos/50x50/3876426.jpg"));
         robot1.disconnect();
 //https://images.media-allrecipes.com/userphotos/50x50/3876426.jpg
     }
