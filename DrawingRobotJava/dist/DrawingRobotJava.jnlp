@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="DrawingRobotJava.jar" size="5196" download="eager" />
+    <jar href="DrawingRobotJava.jar" size="4937" download="eager" />
     <jar href="lib\EdgeDetector-v1.jar" size="14710" download="eager" />
     <jar href="lib\RobotComm-v1.jar" size="3102" download="eager" />
   </resources>

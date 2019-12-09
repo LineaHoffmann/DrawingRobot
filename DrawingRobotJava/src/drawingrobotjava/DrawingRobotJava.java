@@ -24,7 +24,7 @@ public class DrawingRobotJava extends Application
 
     public static void main(String[] args)
     {
-        // instantiere ny robotclient, og opsætter TCp/IP connection
+        //instantiere ny robotclient, og opsætter TCp/IP connection
         RobotClient robot1;
         robot1 = new RobotClient("192.168.1.11", 3333);
         robot1.connect();
@@ -34,6 +34,7 @@ public class DrawingRobotJava extends Application
         picture.createGcode();
         robot1.write(picture.getGcode());
         picture.printBoolArray();
+        System.out.println(picture.getGcode());
 
         System.out.println(picture.getGcode());
 
