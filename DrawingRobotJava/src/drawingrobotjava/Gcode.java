@@ -73,21 +73,21 @@ public class Gcode
         //Loop through the array
         for (int row = 0; row < boolArray.length; row++)
         {
+            if (row % 5 == 0)
+            {
+                gcode = gcode.concat("G12;");
+            }
+
             for (int col = 1; col < boolArray[0].length; col++) //The magnitudeArray method has made the array 1 smaller on each edge, so we have to start at column 1
             {
 
-//                if (lengthDrawn > 100) //After drawing for this long
+//                if (lengthDrawn > 3) //After drawing for this long
 //                {
 //                    gcode = gcode.concat("G12;"); //Add a pencilsharpener command and reset counter for length drawn
 //                    lengthDrawn = 0;
 //                }
                 if (col == boolArray.length - 1) //If we are at the end of a line
                 {
-                    if (col % 5 == 0)
-                    {
-                        gcode = gcode.concat("G12");
-                    }
-
                     gcode = gcode.concat("G08 Z10;" + "G01 X0 Y" + row + ";"); //Add a commando to the gcode to go to start of next line
                     break;
                 }
@@ -97,14 +97,14 @@ public class Gcode
                     if (boolArray[row][col] == true) //If the change is going from false to true
                     {
                         gcode = gcode.concat("G08 Z10;" + "G01 X" + drawLength + " Y" + row + ";"); //Add a gcode command that puts pen down and one that goes to the next change
-                        //startDraw = col; //Set the start of draw to calculate draw length
+                        startDraw = col; //Set the start of draw to calculate draw length
 
                     } else
                     {
                         gcode = gcode.concat("G08 Z0;" + "G01 X" + drawLength + " Y" + row + ";"); //Else add a gcode command that puls the pen up and one that goes to the next change
-                        //endDraw = col; //Set the end of draw to calculate draw length
+                        endDraw = col; //Set the end of draw to calculate draw length
                     }
-                    //lengthDrawn += (startDraw - endDraw); //Calculate length drawn
+                    lengthDrawn += (startDraw - endDraw); //Calculate length drawn
                 }
             }
         }
