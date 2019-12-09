@@ -38,6 +38,7 @@ public class Gcode
             }
         }
     }
+
     //Make an instance of a picture, with a given value for when the intesity of a pixel is strong enough to be drawn
     public Gcode(String file, int drawThreshold)
     {
@@ -74,10 +75,7 @@ public class Gcode
         {
             for (int col = 1; col < boolArray[0].length; col++) //The magnitudeArray method has made the array 1 smaller on each edge, so we have to start at column 1
             {
-                if (col % 5 == 0)
-                {
-                    gcode = gcode.concat("G12");
-                }
+
 //                if (lengthDrawn > 100) //After drawing for this long
 //                {
 //                    gcode = gcode.concat("G12;"); //Add a pencilsharpener command and reset counter for length drawn
@@ -85,6 +83,11 @@ public class Gcode
 //                }
                 if (col == boolArray.length - 1) //If we are at the end of a line
                 {
+                    if (col % 5 == 0)
+                    {
+                        gcode = gcode.concat("G12");
+                    }
+
                     gcode = gcode.concat("G08 Z10;" + "G01 X0 Y" + row + ";"); //Add a commando to the gcode to go to start of next line
                     break;
                 }
@@ -107,7 +110,6 @@ public class Gcode
         }
         gcode = gcode.concat("G08 Z50;M18;M00;"); //Stop (Lift pencil, M18 disable stepmotor, M00 stop all)
     }
-
 
     //Clears the old object and recreate the boolean array from a new file
     public void setFile(String file)

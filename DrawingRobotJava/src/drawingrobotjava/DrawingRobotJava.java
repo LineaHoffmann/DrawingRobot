@@ -36,8 +36,6 @@ public class DrawingRobotJava extends Application
         picture.printBoolArray();
         System.out.println(picture.getGcode());
 
-        System.out.println(picture.getGcode());
-
         launch(args);
         robot1.disconnect();
 //https://images.media-allrecipes.com/userphotos/50x50/3876426.jpg
