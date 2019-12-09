@@ -8,9 +8,6 @@ public class Gcode
     //Attributes
     private String file;
     private String gcode = "";
-    private int startDraw = 0;
-    private int endDraw = 0;
-    private int lengthDrawn = 0;
     private boolean[][] boolArray;
     private int drawThreshold = 128;
 
@@ -81,11 +78,6 @@ public class Gcode
             for (int col = 1; col < boolArray[0].length; col++) //The magnitudeArray method has made the array 1 smaller on each edge, so we have to start at column 1
             {
 
-//                if (lengthDrawn > 3) //After drawing for this long
-//                {
-//                    gcode = gcode.concat("G12;"); //Add a pencilsharpener command and reset counter for length drawn
-//                    lengthDrawn = 0;
-//                }
                 if (col == boolArray.length - 1) //If we are at the end of a line
                 {
                     gcode = gcode.concat("G08 Z10;" + "G01 X0 Y" + row + ";"); //Add a commando to the gcode to go to start of next line
@@ -97,14 +89,11 @@ public class Gcode
                     if (boolArray[row][col] == true) //If the change is going from false to true
                     {
                         gcode = gcode.concat("G08 Z10;" + "G01 X" + drawLength + " Y" + row + ";"); //Add a gcode command that puts pen down and one that goes to the next change
-                        startDraw = col; //Set the start of draw to calculate draw length
 
                     } else
                     {
                         gcode = gcode.concat("G08 Z0;" + "G01 X" + drawLength + " Y" + row + ";"); //Else add a gcode command that puls the pen up and one that goes to the next change
-                        endDraw = col; //Set the end of draw to calculate draw length
                     }
-                    lengthDrawn += (startDraw - endDraw); //Calculate length drawn
                 }
             }
         }
@@ -121,9 +110,6 @@ public class Gcode
 
         //Make sure the object is clear
         gcode = "";
-        startDraw = 0;
-        endDraw = 0;
-        lengthDrawn = 0;
 
         boolArray = new boolean[magArray.length][magArray[0].length];
         for (int row = 0;
@@ -156,11 +142,6 @@ public class Gcode
     public String getGcode()
     {
         return gcode;
-    }
-
-    public int getLengthDrawn()
-    {
-        return lengthDrawn;
     }
 
     public boolean[][] getBoolArray()
